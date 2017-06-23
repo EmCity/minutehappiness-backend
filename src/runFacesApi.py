@@ -6,10 +6,16 @@ def returnTimestamps(images=[]):
     '''
     key2 = b732bb7fff014564b28ee52efb065c8a
     '''
-
+    '''
     headers = {
         # Request headers
         'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': 'a6f69a1966df4dbabe11bfa71138b1d7',
+    }
+    '''
+    headers = {
+        # Request headers
+        'Content-Type': 'application/octet-stream',
         'Ocp-Apim-Subscription-Key': 'a6f69a1966df4dbabe11bfa71138b1d7',
     }
 
@@ -28,11 +34,22 @@ def returnTimestamps(images=[]):
     '''
 
     for img in images: 
-        body = {
-            'url': img
-        }
-        bodydata = json.dumps(body)
+        #body = {
+        #    'url': img
+        #}
+        #bodydata = json.dumps(body)
         try:
+            f = open(img, "rb")
+            filename = img.split('/')[3].split('_') 
+            filename_splitted = filename[0].split('-')
+            hour = filename_splitted[0]
+            minute = filename_splitted[1]
+            second = filename_splitted[2]
+            frame = filename[1].split('.')[0][1]
+            print('frame: ', frame)
+            print('time: ', hour, minute, second)
+            bodydata = f.read()
+            f.close()
             url = 'westeurope.api.cognitive.microsoft.com'
             #body = 'https://cd6.aponet.de/uploads/pics/9629_senior_froehlich_main.jpg'
             #conn = httplib.HTTPSConnection('westus.api.cognitive.microsoft.com')
