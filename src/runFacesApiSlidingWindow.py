@@ -47,7 +47,7 @@ def returnTimestamps(images=[]):
             #minute = filename_splitted[1]
             second = filename[0]
             #frame = filename[1].split('.')[0][1]
-            print('second: ', second)
+            #print('second: ', second)
             #print('time: ', hour, minute, second)
             bodydata = f.read()
             f.close()

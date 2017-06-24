@@ -61,7 +61,7 @@ def writeDB(videos):
 
 	for video in videos:
 		#print("smile: ", smile)
-		print(video)
+		print('Going to insert: ', video)
 		with cursor.execute("INSERT INTO videos (VIDEO_URL, START_TIME, END_TIME) VALUES ('"+video[0]+"',"+video[1]+","+video[2]+")"): 
 		    print ('Successfuly Inserted!')
 		cnxn.commit()
