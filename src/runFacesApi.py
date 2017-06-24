@@ -23,7 +23,7 @@ def returnTimestamps(images=[]):
         # Request parameters
         'returnFaceId': 'true',
         'returnFaceLandmarks': 'false',
-        'returnFaceAttributes': 'smile,emotion',
+        'returnFaceAttributes': 'smile',
     })
     '''
     images = [ 'https://www.photocase.de/fotos/1384797-badewanne-mensch-kind-nackt-photocase-stock-foto-gross.jpeg',
@@ -32,7 +32,8 @@ def returnTimestamps(images=[]):
      'https://cd6.aponet.de/uploads/pics/9629_senior_froehlich_main.jpg'
     ]
     '''
-
+    i = 0
+    result = []
     for img in images: 
         #body = {
         #    'url': img
@@ -59,10 +60,13 @@ def returnTimestamps(images=[]):
             #print('Nach request')
             response = conn.getresponse()
             data = response.read()
+            #print('data: ', data)
             #print('reading response.')
-            print('data: ', data)
             conn.close()
+            result.append([img, data, hour, minute, second, frame])
         except Exception as e:
             print("[Errno {0}] {1}".format(e.errno, e.strerror))
-        #i = i + 1
+        i = i + 1
+        
+    return result
 
