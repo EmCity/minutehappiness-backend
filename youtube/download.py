@@ -13,9 +13,9 @@ print(videos)
 os.chdir('video')
 
 for counter, item in enumerate(videos):
-    yt = YouTube(item)
-    yt.set_filename('output')
     try:
+        yt = YouTube(item)
+        yt.set_filename('output')
         video = yt.get('mp4', '720p')
     except:
         continue
