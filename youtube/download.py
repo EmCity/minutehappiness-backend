@@ -9,7 +9,7 @@ input_file = open('url.txt', 'r')
 for line in input_file:
 	videos.append(line.rstrip('\n'))
 
-print videos
+print(videos)
 
 os.chdir('video')
 
@@ -24,7 +24,7 @@ for counter, item in enumerate(videos):
 	start = regex.search(url).end()
 	end =  len(url)
 	video_id = url[start:end]
-	print video_id
+	print(video_id)
 	if not os.path.exists(video_id):
 		os.makedirs(video_id)
 	video.download(str(video_id) + '/')
