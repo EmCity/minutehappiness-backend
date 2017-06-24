@@ -7,29 +7,22 @@ import pickle
 import torch
 import torch.nn.functional as F
 from torch.autograd import Variable
+from emoCNN import emoCNN
+import numpy as np
+from PIL import Image
 
-'''
-def processImage(img):
+def processImage(model,img):
     img_array = cv2.imread(img,0)
     img_name = img.split('/')[3].split('.') 
     second = img_name[0]
-    model_res = [0.5, 0.5]
-    # model_res = model_name.predict(img_array)
+    model_res = model(Variable(img_array.from_numpy())).data
     json_res = json.dumps([{'faceAttributes':{'smile':model_res[0]}}])
     return [img, json_res, second]
     
-def processImagesBatch(imgs):
+def processImagesBatch(imgs, model_name = './emoCNNtrivial.p'):
+    model = torch.load(model_name)
     results = []
     for img in imgs:
-        img_res = processImage(img)
+        img_res = processImage(model,img)
         results.append(img_res)
     return results
-'''
-model = pickle.load('emoCNNnet/emoCNNtrivial.p')
-def processImagesBatch(imgs):
-	for img in imgs:
-		print(processImage(img))
-
-def processImage()):
-	print(np.fromfile(fname, dtype=dt))
-	score = model(Variable(img.from_numpy()))
