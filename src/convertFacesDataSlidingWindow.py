@@ -4,7 +4,7 @@ import json
 import os
 import glob
 import operator
-
+import time
 
 '''
 images = ['../images/video1/00-01-13_f1.jpg',
@@ -18,11 +18,11 @@ images = ['../images/video1/1.jpg',
 '../images/video4/4.jpg']
 '''
 video_length = 10 #in seconds
-folder = '../images/'
+folder = '../youtube/video/'
 tracks = {}
 for root, dirs, files in os.walk(folder):
 	#print("Hallo")
-	if root != '../images/':
+	if root != '../youtube/video/':
 		#frames += glob.glob(os.path.join(root, '*.jpg'))
 		#print("frames: ", frames)
 		#print root
@@ -31,10 +31,12 @@ for root, dirs, files in os.walk(folder):
 		frames = []
 		frames += glob.glob(os.path.join(root, '*.jpg'))
 		tracks[root] = frames
+		#print('frames: ', frames)
 		#for dir in dirs:
 			#for root, dirs, files in os.walk(folder+"/"+)
 #print(tracks)
 videos = []
+#print(tracks)
 for f in tracks:
 	#print("folder: ", f)
 	#print(type(tracks))
@@ -45,6 +47,7 @@ for f in tracks:
 	#	print("frames: ", frames)
 	#print(images)
 	result = runFacesApi.returnTimestamps(images)
+	#time.sleep(0.5)
 	#print("result", result)
 	#print result
 	#att = result[0][1]
@@ -65,18 +68,20 @@ for f in tracks:
 			d = json.loads(r[1])
 			#print("d", d)
 			filename = r[0].split('/')
+			print(filename)
 			frames = []
-			folder = filename[0]+"/"+filename[1]+"/"+filename[2]+"/"
+			folder = filename[0]+"/"+filename[1]+"/"+filename[2]+"/"+filename[3]+"/"
 			#print(folder)
 			#for root, dirs, files in os.walk(folder):
 			#	frames += glob.glob(os.path.join(root, '*.jpg'))
 			#print("frames: ", frames)
 			#print(filename)
-			video_url = filename[2]
-			start_time = filename[3].split('.')[0]
+			video_url = filename[3]
+			start_time = filename[4].split('.')[0]
 			#attJson = json.loads(att)
 			#print(att)
 			if d:
+				print('d: ', d)
 				smile = d[0]['faceAttributes']['smile']
 				#if(smile > 0.0):
 					#video = [video_url, str(start_time), str(int(start_time)+video_length)]
@@ -93,10 +98,11 @@ for f in tracks:
 				sums.append(cnt)
 			idx = idx + 1
 		print("sums", sums, type(sums))
-		max_index, max_value = max(enumerate(sums), key=operator.itemgetter(1))
-		print('max_index', max_index, 'max_value', max_value)
-		video = ["https://www.youtube.com/watch?v="+video_url, str(max_index), str(int(max_index)+video_length)]
-		videos.append(video)
+		if len(sums) >= 10:
+			max_index, max_value = max(enumerate(sums), key=operator.itemgetter(1))
+			print('max_index', max_index, 'max_value', max_value)
+			video = ["https://www.youtube.com/watch?v="+video_url, str(max_index), str(int(max_index)+video_length)]
+			videos.append(video)
 
 #videos array is an array of (video_url, start_time, end_time) values
 writeToDB.writeDB(videos)
