@@ -2,8 +2,7 @@ import cv2
 import os
 import re
 
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
+face_cascade = cv2.CascadeClassifier('lbpcascade_frontalface_improved.xml')
 os.chdir('video')
 
 folders = os.listdir(os.getcwd())
@@ -24,7 +23,6 @@ for video in folders:
             cv2.rectangle(img, (x,y), (x+w,y+h), (255,255,255))
             sub_face = img[y:y+h, x:x+w]
 
-            eyes = eye_cascade.detectMultiScale(sub_face)
 
 
             resize_face = cv2.resize(sub_face, (48, 48))

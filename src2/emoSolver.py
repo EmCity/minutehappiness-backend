@@ -77,7 +77,7 @@ class emoSolver(object):
                     print("[iteration %d/%d] VALID acc/loss : %f/%f"%(i, num_iter,v_acc,v_loss.data[0]))
                     if v_acc > model.best_val_acc:
                         model.best_val_acc = v_acc
-                        model.best_parameters = model.parameters
+                        #model.best_parameters = model.parameters
                 i+=1
                 
             t_acc = self.get_acc(x_out, y)
@@ -89,5 +89,5 @@ class emoSolver(object):
             if v_acc > model.best_val_acc:
                 model.best_val_acc = v_acc
                 model.best_parameters = model.parameters
-        model.parameters = model.best_parameters
+        #model.parameters = model.best_parameters
         print('FINISH.')

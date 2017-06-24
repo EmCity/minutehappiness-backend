@@ -64,9 +64,12 @@ for f in tracks:
 		scores = []
 		for r in result:
 			video = []
-			#att = result[0][1]
-			if type(r[1]) == 'str':
+			print('type r[1]: ', r[1], type(r[1]))
+			#try:
+			if d == None:
 				d = json.loads(r[1])
+				#except:
+				#	d = json.loads('[{"faceId":"abb9cf79-7588-491f-9b18-58002b8755fd","faceRectangle":{"top":0,"left":0,"width":47,"height":47},"faceAttributes":{"smile":0.0}}]')
 				#print("d", d)
 				filename = r[0].split('/')
 				print(filename)
@@ -89,7 +92,7 @@ for f in tracks:
 					scores.append(smile)
 					#videos.append(video)
 			else:
-				scores.append('0.0')
+				scores.append(0.0)
 		sums = []
 		idx = 0
 		print('scores: ', scores)
