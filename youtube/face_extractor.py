@@ -47,4 +47,4 @@ for video in folders:
                 face_file_name = current_path + "/" + str(id) + "face.jpg"
                 cv2.imwrite(face_file_name, resize_face)
                 print("saved" + face_file_name)
-    cap.release()
+    video_file.release()
