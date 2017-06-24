@@ -78,23 +78,25 @@ for f in tracks:
 			#print(att)
 			if d:
 				smile = d[0]['faceAttributes']['smile']
-				if(smile > 0.0):
+				#if(smile > 0.0):
 					#video = [video_url, str(start_time), str(int(start_time)+video_length)]
-					scores.append(smile)
+				scores.append(smile)
 				#videos.append(video)
 		sums = []
 		idx = 0
+		print('scores: ', scores)
 		for score in scores:
 			if idx+video_length < len(scores):
 				cnt = 0
 				for n in range(idx, idx+video_length):
 					cnt += scores[n]
-			sums.append(cnt)
+				sums.append(cnt)
 			idx = idx + 1
 		print("sums", sums, type(sums))
 		max_index, max_value = max(enumerate(sums), key=operator.itemgetter(1))
 		print('max_index', max_index, 'max_value', max_value)
 		video = ["https://www.youtube.com/watch?v="+video_url, str(max_index), str(int(max_index)+video_length)]
 		videos.append(video)
+
 #videos array is an array of (video_url, start_time, end_time) values
 writeToDB.writeDB(videos)
