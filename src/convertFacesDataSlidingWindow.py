@@ -25,16 +25,16 @@ for root, dirs, files in os.walk(folder):
 	if root != '../images/':
 		#frames += glob.glob(os.path.join(root, '*.jpg'))
 		#print("frames: ", frames)
-		print root
+		#print root
 		#print dirs
-		print files
+		#print files
 		frames = []
 		frames += glob.glob(os.path.join(root, '*.jpg'))
 		tracks[root] = frames
 		#for dir in dirs:
 			#for root, dirs, files in os.walk(folder+"/"+)
 #print(tracks)
-
+videos = []
 for f in tracks:
 	#print("folder: ", f)
 	#print(type(tracks))
@@ -55,7 +55,7 @@ for f in tracks:
 	#print(type(d[0]))
 	#print(json.loads(att))
 	#writeToDB.writeDB(result, video_length) #write data to DB
-	videos = []
+	
 	#Get the folder name
 	if len(result) >= 10:	
 		scores = []
@@ -63,15 +63,15 @@ for f in tracks:
 			video = []
 			#att = result[0][1]
 			d = json.loads(r[1])
-			print("d", d)
+			#print("d", d)
 			filename = r[0].split('/')
 			frames = []
 			folder = filename[0]+"/"+filename[1]+"/"+filename[2]+"/"
-			print(folder)
+			#print(folder)
 			#for root, dirs, files in os.walk(folder):
 			#	frames += glob.glob(os.path.join(root, '*.jpg'))
 			#print("frames: ", frames)
-			print(filename)
+			#print(filename)
 			video_url = filename[2]
 			start_time = filename[3].split('.')[0]
 			#attJson = json.loads(att)
@@ -94,7 +94,7 @@ for f in tracks:
 		print("sums", sums, type(sums))
 		max_index, max_value = max(enumerate(sums), key=operator.itemgetter(1))
 		print('max_index', max_index, 'max_value', max_value)
-		video = [video_url, str(max_index), str(int(max_index)+video_length)]
+		video = ["https://www.youtube.com/watch?v="+video_url, str(max_index), str(int(max_index)+video_length)]
 		videos.append(video)
-		#videos array is an array of (video_url, start_time, end_time) values
-		writeToDB.writeDB(videos)
+#videos array is an array of (video_url, start_time, end_time) values
+writeToDB.writeDB(videos)
