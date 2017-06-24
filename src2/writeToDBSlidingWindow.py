@@ -62,6 +62,9 @@ def writeDB(videos):
 	for video in videos:
 		#print("smile: ", smile)
 		print('Going to insert: ', video)
+		#with cursor.execute("INSERT INTO videos (YouTubeId, StartSeconds, EndSeconds) VALUES ('"+video[0]+"',"+video[1]+","+video[2]+")"):
+                #    print ('Successfuly Inserted!')
+                #cnxn.commit()
 		with cursor.execute("INSERT INTO videos (VIDEO_URL, START_TIME, END_TIME) VALUES ('"+video[0]+"',"+video[1]+","+video[2]+")"): 
 		    print ('Successfuly Inserted!')
 		cnxn.commit()
@@ -70,6 +73,6 @@ def writeDB(videos):
 	cursor.execute("SELECT VIDEO_URL, START_TIME, END_TIME FROM videos")
 	row = cursor.fetchone()
 	while row:
-	    print str(row)
+	    print(str(row))
 	    row = cursor.fetchone()			
 

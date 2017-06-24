@@ -1,5 +1,5 @@
 ########### Python 2.7 #############
-import httplib, urllib, base64, json, time
+import http.client, urllib, base64, json, time
 
 def returnTimestamps(images=[]):
 
@@ -19,7 +19,7 @@ def returnTimestamps(images=[]):
         'Ocp-Apim-Subscription-Key': 'a6f69a1966df4dbabe11bfa71138b1d7',
     }
 
-    params = urllib.urlencode({
+    params = urllib.parse.urlencode({
         # Request parameters
         'returnFaceId': 'true',
         'returnFaceLandmarks': 'false',
@@ -54,14 +54,14 @@ def returnTimestamps(images=[]):
             url = 'westeurope.api.cognitive.microsoft.com'
             #body = 'https://cd6.aponet.de/uploads/pics/9629_senior_froehlich_main.jpg'
             #conn = httplib.HTTPSConnection('westus.api.cognitive.microsoft.com')
-            conn = httplib.HTTPSConnection(url)
+            conn = http.client.HTTPSConnection(url)
             #print("Laeuuft")
             conn.request("POST", "/face/v1.0/detect?%s" % params, bodydata, headers)
             time.sleep(0.1)
 	    #print('Nach request')
             response = conn.getresponse()
             data = response.read()
-            #print('data: ', data)
+            print('data: ', data)
             #print('reading response.')
             conn.close()
             result.append([img, data, second])
