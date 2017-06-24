@@ -65,7 +65,7 @@ for f in tracks:
 		for r in result:
 			video = []
 			#att = result[0][1]
-			if r[1]:
+			if type(r[1]) == 'str':
 				d = json.loads(r[1])
 				#print("d", d)
 				filename = r[0].split('/')
