@@ -15,7 +15,10 @@ os.chdir('video')
 for counter, item in enumerate(videos):
     yt = YouTube(item)
     yt.set_filename('output')
-    video = yt.get('mp4', '720p')
+    try:
+        video = yt.get('mp4', '720p')
+    except:
+        continue
     print(yt.get_videos())
     url = videos[counter]
     regex = re.compile('\=')
