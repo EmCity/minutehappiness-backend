@@ -3,7 +3,12 @@ import numpy as np
 import cv2
 import os
 import json
+import pickle
+import torch
+import torch.nn.functional as F
+from torch.autograd import Variable
 
+'''
 def processImage(img):
     img_array = cv2.imread(img,0)
     img_name = img.split('/')[3].split('.') 
@@ -19,3 +24,12 @@ def processImagesBatch(imgs):
         img_res = processImage(img)
         results.append(img_res)
     return results
+'''
+model = pickle.load('emoCNNnet/emoCNNtrivial.p')
+def processImagesBatch(imgs):
+	for img in imgs:
+		print(processImage(img))
+
+def processImage()):
+	print(np.fromfile(fname, dtype=dt))
+	score = model(Variable(img.from_numpy()))
