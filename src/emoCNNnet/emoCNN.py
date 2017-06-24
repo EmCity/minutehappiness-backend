@@ -24,29 +24,29 @@ class emoCNNnet(nn.Module):
         channels, height, width = input_dim
         k1,k2 = kernels
         self.feature = nn.Sequential(
-			nn.Conv2d(channels,k1,kernel_size=7,padding=3, bias=True),
+            nn.Conv2d(channels,k1,kernel_size=7,padding=3, bias=True).cuda(0),
                  nn.ReLU(),
-				nn.Conv2d(k1,k1,kernel_size=7,padding=3, bias=True),
+                 nn.Conv2d(k1,k1,kernel_size=7,padding=3, bias=True).cuda(0),
                  nn.ReLU(),
-                 nn.MaxPool2d(2, stride = 2,return_indices=False),
-                 nn.Conv2d(k1,k2,kernel_size=5,padding=2,bias=True),
+                 nn.MaxPool2d(2, stride = 2,return_indices=False).cuda(0),
+                 nn.Conv2d(k1,k2,kernel_size=5,padding=2,bias=True).cuda(0),
                  nn.ReLU(),
-                 nn.Conv2d(k2,k2,kernel_size=5,padding=2,bias=True),
+                 nn.Conv2d(k2,k2,kernel_size=5,padding=2,bias=True).cuda(0),
                  nn.ReLU(),
-                 nn.MaxPool2d(2, stride = 2,return_indices=False),
+                 nn.MaxPool2d(2, stride = 2,return_indices=False).cuda(0),
                 )          
         lin_input = self.get_lin_input()
         self.classifier = nn.Sequential(
-                nn.Linear(lin_input,hidden_dim),
-                nn.BatchNorm1d(hidden_dim),
+                nn.Linear(lin_input,hidden_dim).cuda(0),
+                nn.BatchNorm1d(hidden_dim).cuda(0),
                 nn.ReLU(),
-                nn.Linear(hidden_dim,2)
+                nn.Linear(hidden_dim,2).cuda(0)
                 )
         self.best_parameters = self.parameters
         print(self.parameters)
 
     def get_lin_input(self):
-        f = self.feature(Variable(torch.ones(1,*self.input_dim)))
+        f = self.feature(Variable(torch.ones(1,*self.input_dim)).cuda(0))
         return(int(np.prod(f.size()[:])))
     
     def forward(self, x):
@@ -67,5 +67,5 @@ class emoCNNnet(nn.Module):
         Inputs:
         - path: path string
         """
-        print 'Saving model... %s' % path
+        print('Saving model... %s' % path)
         torch.save(self, path)

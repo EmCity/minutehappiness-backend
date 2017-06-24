@@ -28,8 +28,8 @@ class emoSolver(object):
         self.val_acc_history = []
         
     def get_acc(self, x_out, y):
-        xx = np.argmax(x_out.data.numpy(),axis=1)
-        yy = y.data.numpy()
+        xx = np.argmax(x_out.data.cpu().numpy(),axis=1)
+        yy = y.data.cpu().numpy()
         return(np.mean(xx == yy))
         
     def get_valid_stats(self, model, val_loader):
@@ -37,12 +37,14 @@ class emoSolver(object):
         v_loss = 0.0
         v_acc = 0.0
         for valid_x_batch, valid_y_batch in val_loader:
-            xxx = Variable(valid_x_batch, requires_grad=False)
-            yyy = Variable(valid_y_batch, requires_grad=False)
+            xxx = Variable(valid_x_batch.cuda(0), requires_grad=False)
+            yyy = Variable(valid_y_batch.cuda(0), requires_grad=False)
             xxx_out = model(xxx)
             v_loss+= self.loss_func(xxx_out, yyy)
             v_acc+= self.get_acc(xxx_out,yyy)
             divisor+=1.0
+            if divisor>4:
+               break
         v_loss/=divisor
         v_acc/=divisor
         return((v_loss,v_acc))
@@ -55,12 +57,12 @@ class emoSolver(object):
         num_iter = iter_per_epoch*num_epochs
         print('START TRAIN.')
       
-        optim.zero_grad()
         i = 0
         for epoch in range(num_epochs):
             for x_batch, y_batch in train_loader:
-                x = Variable(x_batch, requires_grad=False)
-                y = Variable(y_batch, requires_grad=False)
+                optim.zero_grad()
+                x = Variable(x_batch.cuda(0), requires_grad=False)
+                y = Variable(y_batch.cuda(0), requires_grad=False)
                 x_out = model(x)
                 loss = self.loss_func(x_out, y)
                 loss.backward()
@@ -72,7 +74,6 @@ class emoSolver(object):
                     
                 if i%(log_nth) == 0:
                     (v_loss,v_acc) = self.get_valid_stats(model,val_loader)                    
-                    self.val_acc_history.append(v_acc)
                     print("[iteration %d/%d] VALID acc/loss : %f/%f"%(i, num_iter,v_acc,v_loss.data[0]))
                     if v_acc > model.best_val_acc:
                         model.best_val_acc = v_acc
@@ -89,4 +90,4 @@ class emoSolver(object):
                 model.best_val_acc = v_acc
                 model.best_parameters = model.parameters
         model.parameters = model.best_parameters
-        print 'FINISH.'
+        print('FINISH.')

@@ -8,8 +8,8 @@ from torch.utils import data
 import torch
 import pickle
 
-def make_dataloader(only_two = True):
-    df = pd.read_csv('fer2013/fer2013.csv', delimiter=',',dtype={'emotion':np.int32, 'pixels':str, 'Usage':str})
+def make_dataloader(only_two = True, batch_size = 50, file_name = 'fer2013/fer2013.csv'):
+    df = pd.read_csv(file_name, delimiter=',',dtype={'emotion':np.int32, 'pixels':str, 'Usage':str})
     #df.head()
     def makeArray(text):
         return np.fromstring(text,sep=' ')
@@ -49,19 +49,16 @@ def make_dataloader(only_two = True):
     T_test_labels = torch.from_numpy(test_labels)
     test_t = data.TensorDataset(T_test_data,T_test_labels)
     
-    batch_size = 64
-    train_loader = torch.utils.data.DataLoader(valid_t, batch_size=batch_size, shuffle=False, num_workers=4,
-                                               drop_last = True)
-    valid_loader = torch.utils.data.DataLoader(valid_t, batch_size=batch_size, shuffle=False, num_workers=4,
-                                               drop_last = True)
-    test_loader = torch.utils.data.DataLoader(test_t, batch_size=batch_size, shuffle=False, num_workers=4,
-                                               drop_last = True)
+    train_loader = torch.utils.data.DataLoader(valid_t, batch_size=batch_size, shuffle=False, num_workers=4, drop_last= True)
+    valid_loader = torch.utils.data.DataLoader(valid_t, batch_size=batch_size, shuffle=False, num_workers=4, drop_last= True)
+    test_loader = torch.utils.data.DataLoader(test_t, batch_size=batch_size, shuffle=False, num_workers=4, drop_last= True)
     
     #save them
     
     loaders = {'train_loader':train_loader,
                'valid_loader':valid_loader,
                'test_loader':test_loader}
-    pickle.dump(loaders, open('./fer2013/fer2013Loaders.p',"wb"))
-    print("Fer2013 preprocessed and loaders saved in :")
+    out_name = file_name[:-4]
+    pickle.dump(loaders, open(out_name+'.p',"wb"))
+    print("Data preprocessed and loaders saved in :")
     print('./fer2013/fer2013Loaders.p')
