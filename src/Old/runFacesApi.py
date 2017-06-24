@@ -65,7 +65,7 @@ def returnTimestamps(images=[]):
             conn.close()
             result.append([img, data, hour, minute, second, frame])
         except Exception as e:
-            print("[Errno {0}] {1}".format(e.errno, e.strerror))
+            print(e)
         i = i + 1
         
     return result
