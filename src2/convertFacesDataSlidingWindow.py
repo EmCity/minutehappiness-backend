@@ -63,11 +63,17 @@ for f in tracks:
 	if len(result) >= 10:	
 		scores = []
 		for r in result:
+			print(r[2]) 
 			video = []
-			print('type r[1]: ', r[1], type(r[1]))
+			print('type r[1]: ', r[1].decode("utf-8"), type(r[1]))
 			#try:
-			if d == None:
-				d = json.loads(r[1])
+			try:
+				d = json.loads(r[1].decode("utf-8"))
+				print(r[2])                
+			except ValueError:
+				d = None
+				print('nop')
+			if d != None:
 				#except:
 				#	d = json.loads('[{"faceId":"abb9cf79-7588-491f-9b18-58002b8755fd","faceRectangle":{"top":0,"left":0,"width":47,"height":47},"faceAttributes":{"smile":0.0}}]')
 				#print("d", d)

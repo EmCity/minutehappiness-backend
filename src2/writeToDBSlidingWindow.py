@@ -62,10 +62,10 @@ def writeDB(videos):
 	for video in videos:
 		#print("smile: ", smile)
 		print('Going to insert: ', video)
-		#with cursor.execute("INSERT INTO videos (YouTubeId, StartSeconds, EndSeconds) VALUES ('"+video[0]+"',"+video[1]+","+video[2]+")"):
+		with cursor.execute("INSERT INTO VideoFragments (YouTubeId, StartSeconds, EndSeconds) VALUES ('"+video[0]+"',"+video[1]+","+video[2]+")"):
                 #    print ('Successfuly Inserted!')
                 #cnxn.commit()
-		with cursor.execute("INSERT INTO videos (VIDEO_URL, START_TIME, END_TIME) VALUES ('"+video[0]+"',"+video[1]+","+video[2]+")"): 
+		#with cursor.execute("INSERT INTO videos (VIDEO_URL, START_TIME, END_TIME) VALUES ('"+video[0]+"',"+video[1]+","+video[2]+")"): 
 		    print ('Successfuly Inserted!')
 		cnxn.commit()
 
