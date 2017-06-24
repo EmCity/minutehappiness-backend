@@ -19,16 +19,16 @@ for video in folders:
     video_file = cv2.VideoCapture(str(video) + '/output.mp4')
     frameRate = video_file.get(25)
     current_path = os.getcwd() + "/" + str(video)
-    while(cap.isOpened()):
-        frameId = cap.get(1) #current frame number
-        ret, frame = cap.read()
+    while(video_file.isOpened()):
+        frameId = video_file.get(1) #current frame number
+        ret, frame = video_file.read()
         if (ret != True):
             break
         if (frameId % math.floor(frameRate) == 0):
-            img = cv2.imread(image_file_name, 0)
             faces = face_cascade.detectMultiScale(img, 1.3, 5)
             print(faces)
             for f in faces:
+                img = frame
                 x, y, w, h = [ v for v in f ]
                 #drop face if it is smaller than 40 px
                 if w < 40 or h < 40:
