@@ -1,6 +1,5 @@
 import runFacesApiSlidingWindow as runFacesApi
 import writeToDBSlidingWindow as writeToDB
-import modelInterface
 import json
 import os
 import glob
@@ -48,9 +47,6 @@ for f in tracks:
 	#	print("frames: ", frames)
 	#print(images)
 	result = runFacesApi.returnTimestamps(images)
-	#result = modelInterface.processImagesBatch(images)
-	print('result',result)
-	#print(result)
 	#time.sleep(0.5)
 	#print("result", result)
 	#print result
@@ -69,32 +65,34 @@ for f in tracks:
 		for r in result:
 			video = []
 			#att = result[0][1]
-			#print('ddd' + d)
-			d = json.loads(r[1])
-			#print("d", d)
-			filename = r[0].split('/')
-			#print(filename)
-			frames = []
-			folder = filename[0]+"/"+filename[1]+"/"+filename[2]+"/"+filename[3]+"/"
-			#print(folder)
-			#for root, dirs, files in os.walk(folder):
-			#	frames += glob.glob(os.path.join(root, '*.jpg'))
-			#print("frames: ", frames)
-			#print(filename)
-			video_url = filename[3]
-			start_time = filename[4].split('.')[0]
-			#attJson = json.loads(att)
-			#print(att)
-			if d:
-				#print('d: ', d)
-				smile = d[0]['faceAttributes']['smile']
-				#if(smile > 0.0):
-					#video = [video_url, str(start_time), str(int(start_time)+video_length)]
-				scores.append(smile)
-				#videos.append(video)
+			if type(r[1]) == 'str':
+				d = json.loads(r[1])
+				#print("d", d)
+				filename = r[0].split('/')
+				print(filename)
+				frames = []
+				folder = filename[0]+"/"+filename[1]+"/"+filename[2]+"/"+filename[3]+"/"
+				#print(folder)
+				#for root, dirs, files in os.walk(folder):
+				#	frames += glob.glob(os.path.join(root, '*.jpg'))
+				#print("frames: ", frames)
+				#print(filename)
+				video_url = filename[3]
+				start_time = filename[4].split('.')[0]
+				#attJson = json.loads(att)
+				#print(att)
+				if d:
+					print('d: ', d)
+					smile = d[0]['faceAttributes']['smile']
+					#if(smile > 0.0):
+						#video = [video_url, str(start_time), str(int(start_time)+video_length)]
+					scores.append(smile)
+					#videos.append(video)
+			else:
+				scores.append('0.0')
 		sums = []
 		idx = 0
-		#print('scores: ', scores)
+		print('scores: ', scores)
 		for score in scores:
 			if idx+video_length < len(scores):
 				cnt = 0
@@ -102,10 +100,10 @@ for f in tracks:
 					cnt += scores[n]
 				sums.append(cnt)
 			idx = idx + 1
-		#print("sums", sums, type(sums))
+		print("sums", sums, type(sums))
 		if len(sums) >= 10:
 			max_index, max_value = max(enumerate(sums), key=operator.itemgetter(1))
-			#print('max_index', max_index, 'max_value', max_value)
+			print('max_index', max_index, 'max_value', max_value)
 			#video = ["https://www.youtube.com/watch?v="+video_url, str(max_index), str(int(max_index)+video_length)]
 			video = [video_url, str(max_index), str(int(max_index)+video_length)]
 			videos.append(video)
