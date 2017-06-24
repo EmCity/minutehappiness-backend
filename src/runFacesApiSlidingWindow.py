@@ -1,5 +1,5 @@
 ########### Python 2.7 #############
-import httplib, urllib, base64, json
+import httplib, urllib, base64, json, time
 
 def returnTimestamps(images=[]):
 
@@ -57,7 +57,8 @@ def returnTimestamps(images=[]):
             conn = httplib.HTTPSConnection(url)
             #print("Laeuuft")
             conn.request("POST", "/face/v1.0/detect?%s" % params, bodydata, headers)
-            #print('Nach request')
+            time.sleep(0.1)
+	    #print('Nach request')
             response = conn.getresponse()
             data = response.read()
             #print('data: ', data)
