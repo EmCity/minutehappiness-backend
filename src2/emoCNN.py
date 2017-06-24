@@ -24,18 +24,28 @@ class emoCNNnet(nn.Module):
         self.best_val_acc = 0.0    
         channels, height, width = input_dim
         k1,k2 = kernels
-        self.feature = nn.Sequential(
-            nn.Conv2d(channels,k1,kernel_size=7,padding=3, bias=True).cuda(0),
-                 nn.ReLU(),
-                 nn.Conv2d(k1,k1,kernel_size=7,padding=3, bias=True).cuda(0),
-                 nn.ReLU(),
-                 nn.MaxPool2d(2, stride = 2,return_indices=False).cuda(0),
-                 nn.Conv2d(k1,k2,kernel_size=5,padding=2,bias=True).cuda(0),
-                 nn.ReLU(),
-                 nn.Conv2d(k2,k2,kernel_size=5,padding=2,bias=True).cuda(0),
-                 nn.ReLU(),
-                 nn.MaxPool2d(2, stride = 2,return_indices=False).cuda(0),
-                )          
+                #self.feature = nn.Sequential(
+         #   nn.Conv2d(channels,k1,kernel_size=7,padding=3, bias=True).cuda(0),
+          #       nn.BatchNorm2d(k1).cuda(0),
+           #      nn.ReLU(),
+            #     nn.Conv2d(k1,k1,kernel_size=7,padding=3, bias=True).cuda(0),
+             #    nn.BatchNorm2d(k1).cuda(0),
+              #   nn.ReLU(),
+               #  nn.MaxPool2d(2, stride = 2,return_indices=False).cuda(0),
+                # nn.Conv2d(k1,k2,kernel_size=5,padding=2,bias=True).cuda(0),
+                 #nn.BatchNorm2d(k2).cuda(0),
+                 #nn.ReLU(),
+                 #nn.Conv2d(k2,k2,kernel_size=5,padding=2,bias=True).cuda(0),
+                 #nn.BatchNorm2d(k2).cuda(0),
+                 #nn.ReLU(),
+                 #nn.MaxPool2d(2, stride = 2,return_indices=False).cuda(0),
+                #)
+        self.feature = nn.Sequential(nn.Conv2d(channels,k1,kernel_size=7,padding=3, bias=True).cuda(0),
+                nn.BatchNorm2d(k1).cuda(0),
+                nn.ReLU(),
+                nn.Conv2d(k1,k1,kernel_size=7,padding=3, bias=True).cuda(0),
+                nn.BatchNorm2d(k1).cuda(0),
+                nn.ReLU())
         lin_input = self.get_lin_input()
         self.classifier = nn.Sequential(
                 nn.Linear(lin_input,hidden_dim).cuda(0),
@@ -57,6 +67,7 @@ class emoCNNnet(nn.Module):
         """
         x = self.feature(x)
         x = x.view(x.size(0),-1)
+        print(x)
         out = self.classifier(x)
         return out
 
