@@ -13,7 +13,8 @@ for video in folders:
     images = os.listdir(os.getcwd() + '/' + str(video))
     current_path = os.getcwd() + "/" + str(video)
     for i in images:
-        img = cv2.imread(current_path + "/" + i, 0)
+        image_file_name = current_path + "/" + i
+        img = cv2.imread(image_file_name, 0)
         faces = face_cascade.detectMultiScale(img, 1.3, 5)
         print(faces)
         for f in faces:
@@ -36,3 +37,5 @@ for video in folders:
             cv2.imwrite(face_file_name, resize_face)
             print("saved" + face_file_name)
 
+        #remove image file
+        os.remove(image_file_name)
