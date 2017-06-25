@@ -67,7 +67,6 @@ class emoCNNnet(nn.Module):
         """
         x = self.feature(x)
         x = x.view(x.size(0),-1)
-        print(x)
         out = self.classifier(x)
         return out
 
@@ -80,4 +79,4 @@ class emoCNNnet(nn.Module):
         - path: path string
         """
         print('Saving model... %s' % path)
-        torch.save(self, open(path,'wb'))
+        torch.save(self, path)

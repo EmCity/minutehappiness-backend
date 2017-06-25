@@ -46,7 +46,8 @@ for f in tracks:
 	#		frames += glob.glob(os.path.join(root, '*.jpg'))
 	#	print("frames: ", frames)
 	#print(images)
-	result = runFacesApi.returnTimestamps(images)
+	#result = runFacesApi.returnTimestamps(images)
+    result = modelInterface.processImagesBatch(images)
 	#time.sleep(0.5)
 	#print("result", result)
 	#print result

@@ -4,12 +4,12 @@ youtube_url = 'https://www.youtube.com/watch?v='
 
 url_endpoint = 'https://www.googleapis.com/youtube/v3/search/'
 
-query = ["happy", "nice", "fun", "nice"]
+query = ["happy", "laughting", "fun", "nice", "k pop", "smiling"]
 
 out_file = open('url.txt', 'a')
 
 for q in query:
-    payload = {'part': 'snippet', 'q': q, 'maxResults': 30, 'key': 'AIzaSyBnVHKbVsAm7wLxo8h6rbyhoDLIodZRW2c'}
+    payload = {'part': 'snippet', 'q': q, 'type': 'video', 'maxResults': 30, 'videoDuration': 'short', 'key': 'AIzaSyBnVHKbVsAm7wLxo8h6rbyhoDLIodZRW2c'}
 
     r = requests.get(url_endpoint, params=payload)
 
